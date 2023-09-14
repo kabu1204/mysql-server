@@ -1,3 +1,5 @@
+build/
+.cache/
 *-t
 *_test
 *.Plo

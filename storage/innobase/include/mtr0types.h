@@ -251,6 +251,14 @@ enum mlog_id_t {
 	MLOG_BIGGEST_TYPE = MLOG_INDEX_LOAD
 };
 
+extern const char* mlog_type_name[MLOG_BIGGEST_TYPE+1];
+
+#define DEBUG_MLOG_TYPE_NAME(t) \
+do { \
+	ib::warn() << "[DEBUG MLOG] " << __func__ << ": " \
+				<< mlog_type_name[t]; \
+} while(0); 
+
 /* @} */
 
 /** Size of a MLOG_CHECKPOINT record in bytes.

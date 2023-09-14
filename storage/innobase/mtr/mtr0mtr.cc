@@ -36,6 +36,7 @@ Created 11/26/1995 Heikki Tuuri
 #include "buf0buf.h"
 #include "buf0flu.h"
 #include "fsp0sysspace.h"
+#include "mtr0types.h"
 #include "page0types.h"
 #include "mtr0log.h"
 #include "log0log.h"
@@ -500,6 +501,8 @@ mtr_t::commit()
 	}
 }
 
+extern const char* mlog_type_name[];
+
 /** Commit a mini-transaction that did not modify any pages,
 but generated some redo log on a higher level, such as
 MLOG_FILE_NAME records and a MLOG_CHECKPOINT marker.
@@ -552,6 +555,7 @@ mtr_t::commit_checkpoint(
 	cmd.release_resources();
 
 	if (write_mlog_checkpoint) {
+		DEBUG_MLOG_TYPE_NAME(MLOG_CHECKPOINT);
 		DBUG_PRINT("ib_log",
 			   ("MLOG_CHECKPOINT(" LSN_PF ") written at " LSN_PF,
 			    checkpoint_lsn, log_sys->lsn));

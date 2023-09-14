@@ -32,6 +32,8 @@ Created 10/25/1995 Heikki Tuuri
 *******************************************************/
 
 #include "ha_prototypes.h"
+#include "mtr0types.h"
+#include "ut0ut.h"
 
 #ifndef UNIV_HOTBACKUP
 #include "btr0btr.h"
@@ -2129,6 +2131,10 @@ fil_op_write_log(
 	mach_write_to_2(log_ptr, len);
 	log_ptr += 2;
 	mlog_close(mtr, log_ptr);
+
+	if (type == MLOG_FILE_NAME) {
+		ib::warn() << "[DEBUG MLOG] MLOG_FILE_NAME: " << path;
+	}
 
 	mlog_catenate_string(
 		mtr, reinterpret_cast<const byte*>(path), len);
